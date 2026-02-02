@@ -7,6 +7,5 @@ if __name__ == "__main__":
         app='API.main:app',
         log_config=f"{cwd}/log.ini",
         host='0.0.0.0',
-        port=8450,
-        'check'
+        port=8450
     )
