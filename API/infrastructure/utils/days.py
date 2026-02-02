@@ -73,7 +73,8 @@ async def get_vacation_days(
         vacation = await VacationDays.get_staff_vac_by_id(staff.id, session)
         for v in vacation:
             vac_days += v.dbl_days
-    vac_days = int(round(vac_days + days_before_vacation * 0.066))
+    import math
+    vac_days = math.floor(vac_days + days_before_vacation * 0.066 + 0.5)
     if days_count > vac_days:
         return {
             'status_code': error_status_code,

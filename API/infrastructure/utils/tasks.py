@@ -27,7 +27,8 @@ async def add_vacation_days(
             if (v.vacation_start and datetime.datetime.today() < v.vacation_start) or v.vacation_code in ['935', '936'] or not v.vacation_code:
                 logging.info(f"{staff.iin}: {v.year}")
                 v.dbl_days = round(0.066 + v.dbl_days, 3)
-                v.days = round(v.dbl_days)
+                import math
+                v.days = math.floor(v.dbl_days + 0.5)
                 session.add(v)
 
     await session.commit()

@@ -79,11 +79,12 @@ f'''
                     date_to = text_day.format(d=staff.date_receipt.day, m=months_name.get(staff.date_receipt.month), y=period.year - 1)
                     works_year.append(f"{staff.date_receipt.strftime('%d.%m')}.{period.year}")
                     date_from = text_day.format(d=staff.date_receipt.day, m=months_name.get(staff.date_receipt.month), y=period.year)
-                    years.append(text.format(days=f'{int(round(days_from_this_period)):02d}', to=date_to, f=date_from) + ";")
+                    import math
+                    years.append(text.format(days=f'{math.floor(days_from_this_period + 0.5):02d}', to=date_to, f=date_from) + ";")
 
                     # Списываем дни
                     period.dbl_days -= days_from_this_period
-                    period.days = int(round(period.dbl_days))
+                    period.days = math.floor(period.dbl_days + 0.5)
                     days_to_deduct -= days_from_this_period
                 
                 session.add(period)
