@@ -240,7 +240,7 @@ async def get_days_for_dismissal(
                     y=end.year
                 )
                 works_year[-1] = f"{f'0{end.day}' if end.day < 10 else end.day}.{f'0{end.month}' if end.month < 10 else end.month}.{end.year}"
-                days_for_format = round((v.dbl_days or 0) + 0.066 * days_count)
+                days_for_format = round(float(v.dbl_days or 0) + 0.066 * days_count)
             years.append(
                 text.format(
                     days=f'0{int(days_for_format)}' if days_for_format < 10 else int(days_for_format),
