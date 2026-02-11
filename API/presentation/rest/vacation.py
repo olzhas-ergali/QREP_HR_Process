@@ -204,10 +204,7 @@ async def get_days_for_dismissal(
 ):
     session: AsyncSession = db_session.get()
     staff = await StaffVacation.get_by_guid(guid=dismissal_model.guid, session=session)
-    start = datetime.datetime.today()
     end = datetime.datetime.strptime(dismissal_model.date_dismissal, "%d.%m.%Y")
-    days_count = get_fact_days_vacation(start, end)
-    logging.info(f"days_count: {days_count * 0.066}")
     vac_days = 0
     logging.info(f"vac_days: {vac_days}")
     text = '- {days} календарных дней за период работы с {to} года по {f} года'
@@ -240,6 +237,13 @@ async def get_days_for_dismissal(
                     y=end.year
                 )
                 works_year[-1] = f"{f'0{end.day}' if end.day < 10 else end.day}.{f'0{end.month}' if end.month < 10 else end.month}.{end.year}"
+                # Начало текущего рабочего года (дата приёма с годом v.year - 1)
+                start = datetime.datetime(
+                    year=v.year - 1,
+                    month=staff.date_receipt.month,
+                    day=staff.date_receipt.day
+                )
+                days_count = get_fact_days_vacation(start, end)
                 days_for_format = round(float(v.dbl_days or 0) + 0.066 * days_count)
             years.append(
                 text.format(
